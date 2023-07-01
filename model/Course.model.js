@@ -11,11 +11,11 @@ export const CourseSchema = new mongoose.Schema({
         required: false,
     },
     startTime: {
-        type: String,
+        type: Date,
         required: false,
     },
     endTime: {
-        type: String,
+        type: Date,
         required: false
     },
 

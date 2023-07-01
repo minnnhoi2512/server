@@ -1,4 +1,4 @@
-import mongoose,{ObjectId} from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export const BlogSchema = new mongoose.Schema({
     id: { type: ObjectId },
@@ -6,9 +6,12 @@ export const BlogSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    title : {type : String},
-    content : {type : String},
-    _image : {type : String}
+    title: { type: String },
+    content: { type: String },
+    _image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Upload'
+    },
 });
 
 export default mongoose.model.Blog || mongoose.model('Blog', BlogSchema);

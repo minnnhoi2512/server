@@ -1,27 +1,32 @@
-import mongoose,{ObjectId} from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export const UserSchema = new mongoose.Schema({
     id: { type: ObjectId },
-    username : {
+    username: {
         type: String,
-        required : [true, "Please provide unique Username"],
+        required: [true, "Please provide unique Username"],
         unique: [true, "Username Exist"]
     },
     password: {
         type: String,
         required: [true, "Please provide a password"],
-        unique : false,
+        unique: false,
     },
     email: {
         type: String,
-        required : [true, "Please provide a unique email"],
-        unique: true,
+        required: [true, "Please provide a unique email"],
+        
     },
-    address: { type: String},
-    description: { type: String},
-    phone : { type : String},
-    gender: { type: String},
-    profile: { type: String},
+    grade: {     
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Grade',
+        unique: [true,"Please provide a unique"]
+    },
+    address: { type: String },
+    description: { type: String },
+    phone: { type: String },
+    gender: { type: String },
+    profile: { type: String },
     roleId: {
         type: Number,
         default: 1,
@@ -32,11 +37,11 @@ export const UserSchema = new mongoose.Schema({
         },
 
     },
-    isActive:{
-        type:  Number,
+    isActive: {
+        type: Number,
         default: 0,
         enum: {
-            values: [0,1],
+            values: [0, 1],
             message: '{VALUE} is not supported'
         },
     }

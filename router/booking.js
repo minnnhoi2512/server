@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import * as bookingController from '../controllers/booking.js'
 const router = Router();
 

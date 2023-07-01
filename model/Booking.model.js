@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-
 export const BookingSchema = new mongoose.Schema({
-    courseId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course'
-        // type: String,
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        // index: true,
+        // type: String,
+    },
+    grade: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Grade',
+        // index: true,
         // type: String,
     },
     isAccepted: {
@@ -23,5 +24,8 @@ export const BookingSchema = new mongoose.Schema({
 },
     { timestamps: true }
 );
+BookingSchema.index({ user: 1, grade: 1 }, { unique: true }
+);
+
 
 export default mongoose.model.Booking || mongoose.model('Booking', BookingSchema);

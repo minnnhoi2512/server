@@ -5,14 +5,18 @@ export async function createCourse(req, res) {
     const {
         courseName,
         price,
-        // startTime,
-        // endTime,
+        startTime,
+        endTime,
     } = req.body
     debugger
     try {
+        const existingCourse = await CourseModel.find({courseName : courseName})
+        if (existingCourse.length != 0) return res.status(409).json({error : "Course already exist" })
         const newCourse = await CourseModel.create({
             courseName,
             price,
+            startTime,
+            endTime,
         })
         debugger
         res.status(201).json({

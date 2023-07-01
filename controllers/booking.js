@@ -1,24 +1,29 @@
 //CRUD 
 import BookingModel from "../model/Booking.model.js";
-
+import UserModel from "../model/User.model.js";
+import { updateGrade } from "./grade.js";
+import GradeModel from "../model/Grade.model.js";
 export async function createBooking(req, res) {
     const {
-        courseId,
         user,
+        grade,
     } = req.body
     try {
+        const check = await UserModel.findById(user)
+        debugger
+        if (check.grade != null) return res.status(409).json({ error: "You already have grade" })
         const newBooking = await BookingModel.create({
-            courseId,
             user,
-            isAccepted : 0
+            grade,
+            isAccepted: 0
         })
         debugger
         res.status(201).json({
             msg: 'Create new Booking success',
             data: newBooking
         })
-
     } catch (error) {
+        debugger
         res.status(500).json({
             msg: 'Failed'
         })
@@ -39,7 +44,13 @@ export async function getAllBookings(req, res) {
 export async function deleteBooking(req, res) {
     const id = req.params.id
     try {
+        const booking = await BookingModel.findById(id)
         const deleteBooking = await BookingModel.deleteOne({ _id: id })
+        const updateGrade = await GradeModel.findById({ _id: booking.grade.toString() });
+        
+        let nOfStudent = await BookingModel.find({ grade: booking.grade.toString() })
+        updateGrade.nOfStudent = nOfStudent.length;
+        await updateGrade.save();
         res.status(202).json({
             msg: 'Delete Success'
         })
@@ -53,14 +64,25 @@ export async function updateBooking(req, res) {
     const id = req.params.id
 
     try {
-        const updateBooking = await BookingModel.findById({ _id: id })
+
+        const updateBooking = await BookingModel.findById({ _id: id });
+        const updateUser = await UserModel.findById({ _id: updateBooking.user.toString() });
+        const updateGrade = await GradeModel.findById({ _id: updateBooking.grade.toString() });
+        debugger
+        let nOfStudent = await BookingModel.find({ grade: updateBooking.grade.toString() })
+        updateGrade.nOfStudent = nOfStudent.length;
+        
         updateBooking.isAccepted = 1;
-        await updateBooking.save()
+        updateUser.grade = updateBooking.grade;
+        await updateBooking.save();
+        await updateUser.save();
+        await updateGrade.save();
         res.status(200).json({
             msg: 'Update Success'
         })
     } catch (error) {
-        res.status(204).json({
+        console.log(error);
+        res.status(500).json({
             msg: 'Cannot update'
         })
     }

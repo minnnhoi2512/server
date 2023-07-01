@@ -10,6 +10,8 @@ export async function createBlog(req, res) {
 
     } = req.body
     try {
+        const existingBlog = await BlogModel.find({title : title})
+        if (existingBlog.length != 0) return res.status(409).json({error : "Blog already exist"})
         const newBlog = await BlogModel.create({
 
             title,
@@ -32,10 +34,10 @@ export async function createBlog(req, res) {
 }
 export async function getAllBlogs(req, res) {
     try {
-        const allBlogs = await BlogModel.find().populate({ path: 'user', select: '_id' })
-        res.status(200).json({
+        const allBlogs = await BlogModel.find().populate({ path: 'user', select: 'username' })
+        res.status(200).json(
             allBlogs
-        })
+        )
     } catch (error) {
         res.status(500).json({
             msg: 'Failed'
