@@ -10,6 +10,10 @@ export const CourseSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
+    description: {
+        type: String,
+        required: false,
+    },
     startTime: {
         type: Date,
         required: false,
@@ -19,7 +23,7 @@ export const CourseSchema = new mongoose.Schema({
         required: false
     },
 
-},{
+}, {
     timestamps: true
 });
 

@@ -6,6 +6,7 @@ export async function createCourse(req, res) {
         courseName,
         price,
         startTime,
+        description,
         endTime,
     } = req.body
     debugger
@@ -15,7 +16,9 @@ export async function createCourse(req, res) {
         const newCourse = await CourseModel.create({
             courseName,
             price,
+            description,
             startTime,
+            
             endTime,
         })
         debugger
@@ -60,6 +63,7 @@ export async function updateCourse(req, res) {
     const {
         courseName,
         price,
+        description,
         startTime,
         endTime,
     } = req.body
@@ -67,6 +71,7 @@ export async function updateCourse(req, res) {
         const updateCourse = await CourseModel.findById({ _id: id })
         updateCourse.courseName = courseName || updateCourse.courseName;
         updateCourse.price = price || updateCourse.price;
+        updateCourse.description = description || updateCourse.description;
         updateCourse.startTime = startTime || updateCourse.startTime;
         updateCourse.endTime = endTime || updateCourse.endTime;
         await updateCourse.save()

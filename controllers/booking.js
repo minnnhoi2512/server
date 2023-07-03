@@ -46,10 +46,12 @@ export async function deleteBooking(req, res) {
     try {
         const booking = await BookingModel.findById(id)
         const deleteBooking = await BookingModel.deleteOne({ _id: id })
-        const updateGrade = await GradeModel.findById({ _id: booking.grade.toString() });
-        
-        let nOfStudent = await BookingModel.find({ grade: booking.grade.toString() })
+        const updateGrade = await GradeModel.findById( booking.grade.toString());
+        const updateUser = await UserModel.findById(booking.user.toString())
+        let nOfStudent = await BookingModel.findById(booking.grade.toString())
         updateGrade.nOfStudent = nOfStudent.length;
+        updateUser.grade = '';
+        await updateUser.save();
         await updateGrade.save();
         res.status(202).json({
             msg: 'Delete Success'
@@ -69,7 +71,7 @@ export async function updateBooking(req, res) {
         const updateUser = await UserModel.findById({ _id: updateBooking.user.toString() });
         const updateGrade = await GradeModel.findById({ _id: updateBooking.grade.toString() });
         debugger
-        let nOfStudent = await BookingModel.find({ grade: updateBooking.grade.toString() })
+        let nOfStudent = await BookingModel.find({ grade: updateBooking.grade.toString(), isAccepted : 1 })
         updateGrade.nOfStudent = nOfStudent.length;
         
         updateBooking.isAccepted = 1;
