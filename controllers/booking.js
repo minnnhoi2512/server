@@ -46,13 +46,16 @@ export async function deleteBooking(req, res) {
     try {
         const booking = await BookingModel.findById(id)
         const deleteBooking = await BookingModel.deleteOne({ _id: id })
-        const updateGrade = await GradeModel.findById( booking.grade.toString());
+        const updateGrade = await GradeModel.findById(booking.grade.toString());
         const updateUser = await UserModel.findById(booking.user.toString())
-        let nOfStudent = await BookingModel.findById(booking.grade.toString())
-        updateGrade.nOfStudent = nOfStudent.length;
-        updateUser.grade = '';
-        await updateUser.save();
+        console.log(updateGrade);
+        updateGrade.nOfStudent = updateGrade.nOfStudent - 1;
+        console.log(updateGrade);
+        updateUser.grade = null;
+        console.log(updateUser)
         await updateGrade.save();
+        await updateUser.save();
+        
         res.status(202).json({
             msg: 'Delete Success'
         })
@@ -67,15 +70,13 @@ export async function updateBooking(req, res) {
 
     try {
 
-        const updateBooking = await BookingModel.findById({ _id: id });
-        const updateUser = await UserModel.findById({ _id: updateBooking.user.toString() });
-        const updateGrade = await GradeModel.findById({ _id: updateBooking.grade.toString() });
-        debugger
-        let nOfStudent = await BookingModel.find({ grade: updateBooking.grade.toString(), isAccepted : 1 })
-        updateGrade.nOfStudent = nOfStudent.length;
-        
+        const updateBooking = await BookingModel.findById(id);
+        const updateUser = await UserModel.findById(updateBooking.user.toString());
+        const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
+        updateGrade.nOfStudent = updateGrade.nOfStudent + 1 ;
         updateBooking.isAccepted = 1;
         updateUser.grade = updateBooking.grade;
+
         await updateBooking.save();
         await updateUser.save();
         await updateGrade.save();
@@ -88,4 +89,5 @@ export async function updateBooking(req, res) {
             msg: 'Cannot update'
         })
     }
+
 }

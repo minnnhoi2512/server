@@ -3,14 +3,10 @@ export const BookingSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        // index: true,
-        // type: String,
     },
     grade: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Grade',
-        // index: true,
-        // type: String,
     },
     isAccepted: {
         type: Number,

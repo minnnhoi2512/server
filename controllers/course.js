@@ -84,3 +84,14 @@ export async function updateCourse(req, res) {
         })
     }
 }
+export async function detailCourse(req,res){
+    const courseName = req.params.courseName
+    try {
+        const course = await CourseModel.find({courseName : courseName})
+        res.status(200).json(course)
+    } catch (error) {
+        res.status(500).json({
+            error : "Server error"
+        })
+    }
+}
