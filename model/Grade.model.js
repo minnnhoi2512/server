@@ -7,21 +7,24 @@ export const GradeSchema = new mongoose.Schema({
         ref: 'User'
     },
     nOfStudent: {
-        min : [0],
-        type : Number,
+        min: [0],
+        type: Number,
     },
     course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
-
+    _image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Upload'
+    },
     gradeName: {
         type: String,
         required: false,
     },
-    description : {
-        type : String,
-        required : false,
+    description: {
+        type: String,
+        required: false,
     },
     startTimeGrade: {
         type: String,

@@ -73,5 +73,16 @@ export async function updateGrade(id) {
         return 0;
     }
 }
+export async function detailGrade(req, res) {
+    const gradeName = req.query.gradeName;
+    try {
+        const grade = await GradeModel.find({ gradeName: { $regex: gradeName, $options: 'i' } });
+        res.status(200).json(grade);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+        });
+    }
+}
 
 // co dinh k update
