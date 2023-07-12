@@ -7,7 +7,8 @@ export const GradeSchema = new mongoose.Schema({
         ref: 'User'
     },
     nOfStudent: {
-        min : [0],
+        min : 0,
+        max : 20,
         type : Number,
     },
     course: {
@@ -18,6 +19,10 @@ export const GradeSchema = new mongoose.Schema({
     gradeName: {
         type: String,
         required: false,
+    },
+    _image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Upload'
     },
     description : {
         type : String,

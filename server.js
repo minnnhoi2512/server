@@ -12,7 +12,8 @@ import blogRouter from './router/blog.js'
 import gradeRouter from './router/grade.js'
 import bookingRouter from './router/booking.js'
 import courseRouter from './router/course.js'
-
+import customerRouter from './router/customer.js'
+// import mentorRouter from './router/mentor.js'
 
 dotenv.config()
 const app = express();
@@ -82,6 +83,8 @@ app.use('/blog', blogRouter)
 app.use('/booking', bookingRouter)
 app.use('/grade', gradeRouter)
 app.use('/course', courseRouter)
+app.use('/customer', customerRouter)
+// app.use('/mentor', mentorRouter)
 
 /** start server only when we have valid connection */
 app.listen(port, async (req, res) => {

@@ -390,5 +390,14 @@ export async function getAllUser(req, res) {
     }
 
 }
+export async function studentInGrade(req,res){
+    const gradeId = req.params.gradeId
+    try {
+        const students = await UserModel.find({grade : gradeId})
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
 
 

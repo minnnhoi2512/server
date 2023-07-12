@@ -7,6 +7,7 @@ export async function createGrade(req, res) {
         course,
         gradeName,
         description,
+        _image,
         startTimeGrade,
         endTimeGrade
     } = req.body
@@ -21,6 +22,7 @@ export async function createGrade(req, res) {
             nOfStudent: 0,
             description,
             gradeName,
+            _image: _image || '',
             startTimeGrade,
             endTimeGrade,
         })
@@ -71,6 +73,28 @@ export async function updateGrade(id) {
         return 1;
     } catch (error) {
         return 0;
+    }
+}
+export async function detailGrade(req, res) {
+    const gradeName = req.query.gradeName;
+    try {
+        const grade = await GradeModel.find({ gradeName: { $regex: gradeName, $options: 'i' } });
+        res.status(200).json(grade);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+        });
+    }
+}
+export async function gradesOfMentor(req, res) {
+    const mentorId = req.params.mentorId;
+    try {
+        const grades = await GradeModel.find({instructor : mentorId});
+        res.status(200).json(grades);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+        });
     }
 }
 
