@@ -15,7 +15,10 @@ export const GradeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
-
+    _image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Upload'
+    },
     gradeName: {
         type: String,
         required: false,
