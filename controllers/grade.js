@@ -75,7 +75,7 @@ export async function updateGrade(id) {
         return 0;
     }
 }
-export async function detailGrade(req, res) {
+export async function searchGrade(req, res) {
     const gradeName = req.query.gradeName;
     try {
         const grade = await GradeModel.find({ gradeName: { $regex: gradeName, $options: 'i' } });
