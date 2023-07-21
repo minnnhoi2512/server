@@ -418,9 +418,9 @@ export async function confirmAccount(req, res) {
     }
 }
 export async function getAllUser(req, res) {
-
+    const filter = req.params.filter
     try {
-        const users = await UserModel.find().select("-password");
+        const users = await UserModel.find({isActive : filter}).select("-password");
         res.status(200).json(users);
     } catch (error) {
         res.status(404).json({ message: error.message });

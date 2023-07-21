@@ -8,6 +8,7 @@ export const CourseSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
+        min : 1,
         required: false,
     },
     description: {

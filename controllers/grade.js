@@ -8,6 +8,8 @@ export async function createGrade(req, res) {
         gradeName,
         description,
         _image,
+        room,
+        weekDay,
         startTimeGrade,
         endTimeGrade
     } = req.body
@@ -23,6 +25,8 @@ export async function createGrade(req, res) {
             description,
             gradeName,
             _image: _image || '',
+            room,
+            weekDay,
             startTimeGrade,
             endTimeGrade,
         })

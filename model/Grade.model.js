@@ -31,6 +31,14 @@ export const GradeSchema = new mongoose.Schema({
         type : String,
         required : false,
     },
+    room : {
+        type : String,
+        required : false,
+    },
+    weekDay : {
+        type : String,
+        required : false,
+    },
     startTimeGrade: {
         type: String,
         required: false,
