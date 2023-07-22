@@ -30,8 +30,10 @@ export async function createBooking(req, res) {
     }
 }
 export async function getAllBookings(req, res) {
+    let status = req.query.status;
+    console.log(status);
     try {
-        const allBookings = await BookingModel.find()
+        const allBookings = await BookingModel.find({isAccepted : status})
         res.status(200).json(
             allBookings
         )
@@ -107,6 +109,20 @@ export async function rejectBooking(req, res) {
         })
     }
 
+}
+export async function getStatusBooking(req, res) {
+    
+    let status = req.query.isAccepted;
+    try {
+        const allBookings = await BookingModel.find({isAccepted : status})
+        res.status(200).json(
+            allBookings
+        )
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Failed'
+        })
+    }
 }
 export async function getAcceptedBookings(req, res) {
     try {

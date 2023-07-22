@@ -418,9 +418,10 @@ export async function confirmAccount(req, res) {
     }
 }
 export async function getAllUser(req, res) {
-    const filter = req.params.filter
+    const active = req.query.active
+    const username = req.query.username
     try {
-        const users = await UserModel.find({isActive : filter}).select("-password");
+        const users = await UserModel.find({isActive : active, username : { $regex: username, $options: 'i' }}).select("-password");
         res.status(200).json(users);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -436,5 +437,20 @@ export async function studentInGrade(req, res) {
         res.status(404).json({ message: error.message });
     }
 }
+// export async function searchUsers(req, res) {
+//     const id = req.params.id;
 
+//     try {
+
+//         const updateUser = await UserModel.findById(id);
+//         updateUser.isActive = 0;
+//         await updateUser.save();
+//         res.status(200).json(updateUser)
+//     } catch (error) {
+//         res.status(500).json({
+//             msg: "Failed"
+//         })
+//     }
+
+// }
 

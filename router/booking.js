@@ -9,8 +9,10 @@ router.route('/deleteBooking/:id').delete(bookingController.deleteBooking);
 router.route('/updateBooking/:id').post(bookingController.updateBooking);
 router.route('/rejectBooking/:id').post(bookingController.rejectBooking);
 
-router.route('/waiting').post(bookingController.getAcceptedBookings);
-router.route('/rejected').post(bookingController.getRejectedBookings);
-router.route('/accepted').post(bookingController.getWaitingBookings);
+router.route('/getBookings').get(bookingController.getStatusBooking);
+
+router.route('/waiting').get(bookingController.getAcceptedBookings);
+router.route('/rejected').get(bookingController.getRejectedBookings);
+router.route('/accepted').get(bookingController.getWaitingBookings);
 
 export default router;
