@@ -10,6 +10,7 @@ router.route('/updateBooking/:id').post(bookingController.updateBooking);
 router.route('/rejectBooking/:id').post(bookingController.rejectBooking);
 
 router.route('/getBookings').get(bookingController.getStatusBooking);
+router.route('/getBookingOfUser/:id').get(bookingController.getBookingOfUser);
 
 router.route('/waiting').get(bookingController.getAcceptedBookings);
 router.route('/rejected').get(bookingController.getRejectedBookings);

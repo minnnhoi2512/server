@@ -18,12 +18,15 @@ export const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Please provide a unique email"],
-        
+
     },
-    grade: {     
+    grade: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Grade',
-        unique: [true,"Please provide a unique"]
+        unique: [true, "Please provide a unique"]
+    },
+    ex_grade: {
+        type: String,
     },
     address: { type: String },
     description: { type: String },
@@ -32,9 +35,9 @@ export const UserSchema = new mongoose.Schema({
     profile: { type: String },
     roleId: {
         type: Number,
-        default : 1,
+        default: 1,
         enum: {
-           
+
             values: [1, 2, 3, 4],
             message: '{VALUE} is not supported'
         },
@@ -42,7 +45,7 @@ export const UserSchema = new mongoose.Schema({
     },
     isActive: {
         type: Number,
-        default : 0,
+        default: 0,
         enum: {
             values: [0, 1],
             message: '{VALUE} is not supported'

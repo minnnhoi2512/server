@@ -76,7 +76,7 @@ export async function updateBooking(req, res) {
         updateGrade.nOfStudent = updateGrade.nOfStudent + 1 ;
         updateBooking.isAccepted = 1;
         updateUser.grade = updateBooking.grade;
-
+        updateUser.ex_grade = updateGrade.gradeName;
         await updateBooking.save();
         await updateUser.save();
         await updateGrade.save();
@@ -153,6 +153,19 @@ export async function getWaitingBookings(req, res) {
         const allBookings = await BookingModel.find({isAccepted : 0})
         res.status(200).json(
             allBookings
+        )
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Failed'
+        })
+    }
+}
+export async function getBookingOfUser(req, res) {
+    let userId = req.params.id
+    try {
+        const booking = await BookingModel.find({user : userId})
+        res.status(200).json(
+            booking
         )
     } catch (error) {
         res.status(500).json({
