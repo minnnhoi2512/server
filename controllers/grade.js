@@ -101,5 +101,15 @@ export async function gradesOfMentor(req, res) {
         });
     }
 }
-
+export async function getGradeById(req, res) {
+    const id = req.params.id;
+    try {
+        const grade = await GradeModel.find({ _id: id });
+        res.status(200).json(grade);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+        });
+    }
+}
 // co dinh k update

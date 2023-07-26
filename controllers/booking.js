@@ -76,7 +76,7 @@ export async function updateBooking(req, res) {
         updateGrade.nOfStudent = updateGrade.nOfStudent + 1 ;
         updateBooking.isAccepted = 1;
         updateUser.grade = updateBooking.grade;
-        updateUser.ex_grade = updateGrade.gradeName;
+        updateUser.ex_grade = updateUser.ex_grade + updateGrade.gradeName;
         await updateBooking.save();
         await updateUser.save();
         await updateGrade.save();
