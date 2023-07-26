@@ -52,7 +52,6 @@ export async function deleteBooking(req, res) {
         const updateUser = await UserModel.findById(booking.user.toString())
         updateGrade.nOfStudent = updateGrade.nOfStudent - 1;
         updateUser.grade = null;
-        console.log(updateUser)
         await updateGrade.save();
         await updateUser.save();
         
@@ -172,4 +171,23 @@ export async function getBookingOfUser(req, res) {
             msg: 'Failed'
         })
     }
+}
+export async function setPaymentStatus(req, res) {
+    const id = req.params.id
+
+    try {
+
+        const updateBooking = await BookingModel.findById(id);
+        updateBooking.payment = 1;
+        await updateBooking.save();
+        res.status(200).json({
+            msg: 'Update Success'
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Cannot update'
+        })
+    }
+
 }
