@@ -140,7 +140,7 @@ export async function login(req, res) {
                                 roleId: user.roleId,
                                 id: user._id,
                                 token,
-                                fullName : user.fullName
+                                fullName: user.fullName
                             });
                         } else return res.status(400).send({ error: "Account is not actived" });
 
@@ -430,6 +430,17 @@ export async function getAllUser(req, res) {
     }
 
 }
+export async function getAllUser_2(req, res) {
+    const active = req.query.active
+    const fullName = req.query.fullName
+    try {
+        const users = await UserModel.find({ isActive: active, fullName: { $regex: fullName, $options: 'i' } }).select("-password");
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+
+}
 export async function studentInGrade(req, res) {
     const gradeId = req.params.gradeId
     try {
@@ -445,10 +456,12 @@ export async function kickoutStudent(req, res) {
         const student = await UserModel.findById(id);
         debugger
         const grade = await GradeModel.findById(student.grade.toString());
-        grade.nOfStudent = grade.nOfStudent - 1;
+        const number = await UserModel.find({ grade: grade._id.toString() });
+
+        grade.nOfStudent = number.length - 1;
         if (student.ex_grade) {
             student.ex_grade = student.ex_grade + " , " + grade.gradeName;
-        }else student.ex_grade = grade.gradeName;
+        } else student.ex_grade = grade.gradeName;
         student.grade = null;
         await student.save();
         await grade.save();

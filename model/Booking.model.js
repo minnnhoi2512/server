@@ -7,6 +7,7 @@ export const BookingSchema = new mongoose.Schema({
     grade: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Grade',
+        
     },
     payment: {
         type: Number,

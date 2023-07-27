@@ -14,10 +14,14 @@ router.route('/registerMail').post(registerMail); // send the email
 router.route('/authenticate').post(controller.verifyUser, (req, res) => res.end()); // authenticate user
 router.route('/login').post(controller.verifyUser,controller.login); // login in app
 router.route('/recoveryUser').get(controller.verifyUser,controller.recoveryUser); // login in app
-router.route('/getAll').get(controller.getAllUser);
+
+router.route('/getAll').get(controller.getAllUser_2);
+// router.route('/getAllUser_2').get(controller.getAllUser_2); // cai nay moi' ne`
+
 router.route('/studentInGrade/:gradeId').get(controller.studentInGrade); // cai nay moi' ne`
 router.route('/disableUser/:id').post(controller.disableUser); // cai nay moi' ne`
 router.route('/ableUser/:id').post(controller.ableUser); // cai nay moi' ne`
+
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser) // user with username
