@@ -33,7 +33,7 @@ export async function getAllBookings(req, res) {
     let status = req.query.status;
     console.log(status);
     try {
-        const allBookings = await BookingModel.find({isAccepted : status})
+        const allBookings = await BookingModel.find({ isAccepted: status })
         res.status(200).json(
             allBookings
         )
@@ -54,7 +54,7 @@ export async function deleteBooking(req, res) {
         updateUser.grade = null;
         await updateGrade.save();
         await updateUser.save();
-        
+
         res.status(202).json({
             msg: 'Delete Success'
         })
@@ -72,10 +72,9 @@ export async function updateBooking(req, res) {
         const updateBooking = await BookingModel.findById(id);
         const updateUser = await UserModel.findById(updateBooking.user.toString());
         const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
-        updateGrade.nOfStudent = updateGrade.nOfStudent + 1 ;
+        if (updateGrade.nOfStudent != 20) updateGrade.nOfStudent = updateGrade.nOfStudent + 1;
         updateBooking.isAccepted = 1;
         updateUser.grade = updateBooking.grade;
-        updateUser.ex_grade = updateUser.ex_grade + updateGrade.gradeName;
         await updateBooking.save();
         await updateUser.save();
         await updateGrade.save();
@@ -110,10 +109,10 @@ export async function rejectBooking(req, res) {
 
 }
 export async function getStatusBooking(req, res) {
-    
+
     let status = req.query.isAccepted;
     try {
-        const allBookings = await BookingModel.find({isAccepted : status})
+        const allBookings = await BookingModel.find({ isAccepted: status })
         res.status(200).json(
             allBookings
         )
@@ -125,7 +124,7 @@ export async function getStatusBooking(req, res) {
 }
 export async function getAcceptedBookings(req, res) {
     try {
-        const allBookings = await BookingModel.find({isAccepted : 1})
+        const allBookings = await BookingModel.find({ isAccepted: 1 })
         res.status(200).json(
             allBookings
         )
@@ -137,7 +136,7 @@ export async function getAcceptedBookings(req, res) {
 }
 export async function getRejectedBookings(req, res) {
     try {
-        const allBookings = await BookingModel.find({isAccepted : -1})
+        const allBookings = await BookingModel.find({ isAccepted: -1 })
         res.status(200).json(
             allBookings
         )
@@ -149,7 +148,7 @@ export async function getRejectedBookings(req, res) {
 }
 export async function getWaitingBookings(req, res) {
     try {
-        const allBookings = await BookingModel.find({isAccepted : 0})
+        const allBookings = await BookingModel.find({ isAccepted: 0 })
         res.status(200).json(
             allBookings
         )
@@ -162,7 +161,7 @@ export async function getWaitingBookings(req, res) {
 export async function getBookingOfUser(req, res) {
     let userId = req.params.id
     try {
-        const booking = await BookingModel.find({user : userId})
+        const booking = await BookingModel.find({ user: userId })
         res.status(200).json(
             booking
         )

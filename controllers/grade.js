@@ -104,7 +104,7 @@ export async function gradesOfMentor(req, res) {
 export async function getGradeById(req, res) {
     const id = req.params.id;
     try {
-        const grade = await GradeModel.find({ _id: id });
+        const grade = await GradeModel.findById( id );
         res.status(200).json(grade);
     } catch (error) {
         res.status(500).json({
@@ -112,4 +112,5 @@ export async function getGradeById(req, res) {
         });
     }
 }
+
 // co dinh k update
