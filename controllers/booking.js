@@ -74,10 +74,13 @@ export async function updateBooking(req, res) {
         const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
         const number = await UserModel.find({ grade: updateGrade._id.toString() });
 
-
-        if (updateGrade.nOfStudent != 20) updateGrade.nOfStudent = number.length + 1;
+        debugger
+        if (updateGrade.nOfStudent <= 20 && updateUser.grade == null) {
+            updateGrade.nOfStudent = number.length + 1;
+            updateUser.grade = updateBooking.grade;
+        }
+        else throw Error;
         updateBooking.isAccepted = 1;
-        updateUser.grade = updateBooking.grade;
         await updateBooking.save();
         await updateUser.save();
         await updateGrade.save();
