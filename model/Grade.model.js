@@ -8,7 +8,7 @@ export const GradeSchema = new mongoose.Schema({
     },
     nOfStudent: {
         min : 0,
-        max : 3,
+        max : 20,
         type : Number,
     },
     course: {

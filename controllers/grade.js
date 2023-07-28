@@ -44,7 +44,7 @@ export async function createGrade(req, res) {
 }
 export async function getAllGrades(req, res) {
     try {
-        const allGrades = await GradeModel.find()
+        const allGrades = await GradeModel.find().sort({"startTimeGrade" : 1})
         res.status(200).json(
             allGrades
         )
