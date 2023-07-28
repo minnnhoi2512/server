@@ -93,7 +93,7 @@ export async function searchGrade(req, res) {
 export async function gradesOfMentor(req, res) {
     const mentorId = req.params.mentorId;
     try {
-        const grades = await GradeModel.find({instructor : mentorId});
+        const grades = await GradeModel.find({instructor : mentorId}).sort({"startTimeGrade" : 1});
         res.status(200).json(grades);
     } catch (error) {
         res.status(500).json({
