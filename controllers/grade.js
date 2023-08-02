@@ -16,7 +16,7 @@ export async function createGrade(req, res) {
     } = req.body
     try {
         const existingGrade = await GradeModel.find({ gradeName: gradeName })
-        
+
         debugger
         if (existingGrade.length != 0) return res.status(409).json({ error: "Grade already exist" })
         else {
@@ -36,7 +36,7 @@ export async function createGrade(req, res) {
             if (updateUser.grade == null) {
                 updateUser.grade = newGrade._id.toString();
                 await updateUser.save();
-            }else {
+            } else {
                 updateUser.grade = updateUser.grade + " , " + newGrade._id.toString();
                 await updateUser.save();
             }
@@ -45,7 +45,7 @@ export async function createGrade(req, res) {
                 data: newGrade
             })
         }
-       
+
 
     } catch (error) {
         res.status(500).json({
@@ -55,7 +55,19 @@ export async function createGrade(req, res) {
 }
 export async function getAllGrades(req, res) {
     try {
-        const allGrades = await GradeModel.find().sort({"startTimeGrade" : 1})
+        const allGrades = await GradeModel.find().sort({ "startTimeGrade": 1 })
+        res.status(200).json(
+            allGrades
+        )
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Failed'
+        })
+    }
+}
+export async function getAllGradesForSchedule(req, res) {
+    try {
+        const allGrades = await GradeModel.find().populate('course').populate('instructor', 'fullName')
         res.status(200).json(
             allGrades
         )
@@ -80,10 +92,10 @@ export async function deleteGrade(req, res) {
 }
 export async function updateGrade(id) {
     try {
-        const updateGrade = await GradeModel.findById({id });
+        const updateGrade = await GradeModel.findById({ id });
         debugger
-        
-        updateGrade.nOfStudent =  updateGrade.nOfStudent + 1;
+
+        updateGrade.nOfStudent = updateGrade.nOfStudent + 1;
         await updateGrade.save();
         return 1;
     } catch (error) {
@@ -104,7 +116,7 @@ export async function searchGrade(req, res) {
 export async function gradesOfMentor(req, res) {
     const mentorId = req.params.mentorId;
     try {
-        const grades = await GradeModel.find({instructor : mentorId}).sort({"startTimeGrade" : 1});
+        const grades = await GradeModel.find({ instructor: mentorId }).sort({ "startTimeGrade": 1 });
         res.status(200).json(grades);
     } catch (error) {
         res.status(500).json({
@@ -115,7 +127,8 @@ export async function gradesOfMentor(req, res) {
 export async function getGradeById(req, res) {
     const id = req.params.id;
     try {
-        const grade = await GradeModel.findById( id );
+        debugger
+        const grade = await GradeModel.findById( id ).populate('course').populate('instructor', 'fullName');
         res.status(200).json(grade);
     } catch (error) {
         res.status(500).json({

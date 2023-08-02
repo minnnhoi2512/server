@@ -16,7 +16,7 @@ export async function createSlot(req, res) {
         day.setMinutes(0);
         day.setSeconds(0);
         day.setMilliseconds(0);
-        debugger
+        // debugger
         const existSlot = await SlotModel.findOne({ grade: grade, user: user, date: day })
         if (existSlot != null) {
             existSlot.isAttended = isAttended || existSlot.isAttended;
@@ -30,7 +30,7 @@ export async function createSlot(req, res) {
                 date: day,
                 isAttended: isAttended || 0,
             })
-            debugger
+            // debugger
             res.status(201).json(newSlot)
         }
 
@@ -45,7 +45,7 @@ export async function createSlot(req, res) {
 export async function getAllSlotOfUser(req, res) {
     const id = req.params.id
     try {
-        debugger
+        // debugger
         const allSlot = await SlotModel.find({ user: id })
         res.status(200).json(allSlot)
     } catch (error) {

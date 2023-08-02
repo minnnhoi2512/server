@@ -77,7 +77,7 @@ export async function updateBooking(req, res) {
         debugger
         if (updateGrade.nOfStudent <= 20) {
             updateGrade.nOfStudent = updateGrade.nOfStudent + 1;
-            if (updateUser.grade == null) {
+            if (updateUser.grade == null  || updateUser.grade == '') {
                 updateUser.grade = updateBooking.grade;
             }else {
                 updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
@@ -194,9 +194,14 @@ export async function setPaymentStatus(req, res) {
         const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
         const number = await UserModel.find({ grade: updateGrade._id.toString() });
         debugger
+       
         if (updateGrade.nOfStudent <= 20) {
             updateGrade.nOfStudent = number.length + 1;
-            updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
+            if (updateUser.grade == null || updateUser.grade == '') {
+                updateUser.grade = updateBooking.grade;
+            }else {
+                updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
+            }
             await updateUser.save();
         }
         updateBooking.payment = 1;
