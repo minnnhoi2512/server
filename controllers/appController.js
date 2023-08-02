@@ -251,7 +251,7 @@ export async function updateUser_1(req, res) {
     } = req.body;
 
     try {
-        debugger
+        // debugger
         console.log(roleId);
         const updateUser = await UserModel.findById(id);
         updateUser.roleId = roleId ?? updateUser.roleId;
@@ -444,7 +444,9 @@ export async function getAllUser_2(req, res) {
 export async function studentInGrade(req, res) {
     const gradeId = req.params.gradeId
     try {
-        const students = await UserModel.find({ grade: gradeId })
+        // debugger
+        // fullName: { $regex: fullName, $options: 'i' }
+        const students = await UserModel.find({ roleId: 1, grade: { $regex: gradeId, $options: 'i' } })
         res.status(200).json(students);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -454,7 +456,7 @@ export async function kickoutStudent(req, res) {
     const id = req.params.id;
     try {
         const student = await UserModel.findById(id);
-        debugger
+        // debugger
         const grade = await GradeModel.findById(student.grade.toString());
         const number = await UserModel.find({ grade: grade._id.toString() });
 

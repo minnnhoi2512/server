@@ -1,5 +1,6 @@
 //CRUD 
 import GradeModel from "../model/Grade.model.js";
+import UserModel from "../model/User.model.js";
 
 export async function createGrade(req, res) {
     const {
@@ -15,26 +16,36 @@ export async function createGrade(req, res) {
     } = req.body
     try {
         const existingGrade = await GradeModel.find({ gradeName: gradeName })
+        
         debugger
         if (existingGrade.length != 0) return res.status(409).json({ error: "Grade already exist" })
-
-        const newGrade = await GradeModel.create({
-            instructor,
-            course,
-            nOfStudent: 0,
-            description,
-            gradeName,
-            _image: _image || '',
-            room,
-            weekDay,
-            startTimeGrade,
-            endTimeGrade,
-        })
-        debugger
-        res.status(201).json({
-            msg: 'Create new Grade success',
-            data: newGrade
-        })
+        else {
+            const updateUser = await UserModel.findById(instructor);
+            const newGrade = await GradeModel.create({
+                instructor,
+                course,
+                nOfStudent: 0,
+                description,
+                gradeName,
+                _image: _image || '',
+                room,
+                weekDay,
+                startTimeGrade,
+                endTimeGrade,
+            })
+            if (updateUser.grade == null) {
+                updateUser.grade = newGrade._id.toString();
+                await updateUser.save();
+            }else {
+                updateUser.grade = updateUser.grade + " , " + newGrade._id.toString();
+                await updateUser.save();
+            }
+            res.status(201).json({
+                msg: 'Create new Grade success',
+                data: newGrade
+            })
+        }
+       
 
     } catch (error) {
         res.status(500).json({

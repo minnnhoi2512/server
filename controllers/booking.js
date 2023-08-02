@@ -9,9 +9,9 @@ export async function createBooking(req, res) {
         grade,
     } = req.body
     try {
-        const check = await UserModel.findById(user)
+        const check = await BookingModel.find({ user: user, grade: grade })
         debugger
-        if (check.grade != null) return res.status(409).json({ error: "You already have grade" })
+        if (check.length > 0) return res.status(409).json({ error: "You already book that class" })
         const newBooking = await BookingModel.create({
             user,
             grade,
@@ -72,14 +72,21 @@ export async function updateBooking(req, res) {
         const updateBooking = await BookingModel.findById(id);
         const updateUser = await UserModel.findById(updateBooking.user.toString());
         const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
-        const number = await UserModel.find({ grade: updateGrade._id.toString() });
+       
 
         debugger
-        if (updateGrade.nOfStudent <= 20 && updateUser.grade == null) {
-            updateGrade.nOfStudent = number.length + 1;
-            updateUser.grade = updateBooking.grade;
+        if (updateGrade.nOfStudent <= 20) {
+            updateGrade.nOfStudent = updateGrade.nOfStudent + 1;
+            if (updateUser.grade == null) {
+                updateUser.grade = updateBooking.grade;
+            }else {
+                updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
+            }
+          
         }
-        else throw Error;
+        else res.status(500).json({
+            msg : 'The class is full'
+        })
         updateBooking.isAccepted = 1;
         await updateBooking.save();
         await updateUser.save();
@@ -183,7 +190,16 @@ export async function setPaymentStatus(req, res) {
     try {
 
         const updateBooking = await BookingModel.findById(id);
+        const updateUser = await UserModel.findById(updateBooking.user.toString());
+        const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
+        const number = await UserModel.find({ grade: updateGrade._id.toString() });
+
+        if (updateGrade.nOfStudent <= 20) {
+            updateGrade.nOfStudent = number.length + 1;
+            updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
+        }
         updateBooking.payment = 1;
+        updateBooking.isAccepted = 1;
         await updateBooking.save();
         res.status(200).json({
             msg: 'Update Success'
