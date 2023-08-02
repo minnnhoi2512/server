@@ -33,7 +33,7 @@ export async function createGrade(req, res) {
                 startTimeGrade,
                 endTimeGrade,
             })
-            if (updateUser.grade == null) {
+            if (updateUser.grade == null || updateUser.grade == '') {
                 updateUser.grade = newGrade._id.toString();
                 await updateUser.save();
             } else {
@@ -128,7 +128,7 @@ export async function getGradeById(req, res) {
     const id = req.params.id;
     try {
         debugger
-        const grade = await GradeModel.findById( id ).populate('course').populate('instructor', 'fullName');
+        const grade = await GradeModel.findById(id).populate('course').populate('instructor', 'fullName');
         res.status(200).json(grade);
     } catch (error) {
         res.status(500).json({
