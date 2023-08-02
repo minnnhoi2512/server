@@ -23,9 +23,6 @@ export const UserSchema = new mongoose.Schema({
     grade: {
         type: String,
     },
-    ex_grade: {
-        type: String,
-    },
     address: { type: String },
     description: { type: String },
     phone: { type: String },

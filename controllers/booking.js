@@ -193,10 +193,11 @@ export async function setPaymentStatus(req, res) {
         const updateUser = await UserModel.findById(updateBooking.user.toString());
         const updateGrade = await GradeModel.findById(updateBooking.grade.toString());
         const number = await UserModel.find({ grade: updateGrade._id.toString() });
-
+        debugger
         if (updateGrade.nOfStudent <= 20) {
             updateGrade.nOfStudent = number.length + 1;
             updateUser.grade = updateUser.grade + " , " + updateBooking.grade;
+            await updateUser.save();
         }
         updateBooking.payment = 1;
         updateBooking.isAccepted = 1;
