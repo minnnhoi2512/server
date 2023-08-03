@@ -201,7 +201,7 @@ export async function setPaymentStatus(req, res) {
         debugger
 
         if (updateGrade.nOfStudent <= 20) {
-            updateGrade.nOfStudent = number.length + 1;
+            updateGrade.nOfStudent = updateGrade.nOfStudent + 1;
             if (updateUser.grade == null || updateUser.grade == '') {
                 updateUser.grade = updateBooking.grade;
             } else {
