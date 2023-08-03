@@ -129,6 +129,8 @@ export async function getStatusBooking(req, res) {
     let status = req.query.isAccepted;
     try {
         const allBookings = await BookingModel.find({ isAccepted: status }).populate('user').populate('grade');
+        // console.log(allBookings.grade.course);
+        debugger
         res.status(200).json(
             allBookings
         )
