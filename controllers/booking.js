@@ -128,7 +128,7 @@ export async function getStatusBooking(req, res) {
 
     let status = req.query.isAccepted;
     try {
-        const allBookings = await BookingModel.find({ isAccepted: status })
+        const allBookings = await BookingModel.find({ isAccepted: status }).populate('user').populate('grade');
         res.status(200).json(
             allBookings
         )
@@ -177,7 +177,7 @@ export async function getWaitingBookings(req, res) {
 export async function getBookingOfUser(req, res) {
     let userId = req.params.id
     try {
-        const booking = await BookingModel.find({ user: userId })
+        const booking = await BookingModel.find({ user: userId }).populate('user').populate('grade')
         res.status(200).json(
             booking
         )

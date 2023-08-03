@@ -116,7 +116,7 @@ export async function searchGrade(req, res) {
 export async function gradesOfMentor(req, res) {
     const mentorId = req.params.mentorId;
     try {
-        const grades = await GradeModel.find({ instructor: mentorId }).sort({ "startTimeGrade": 1 });
+        const grades = await GradeModel.find({ instructor: mentorId }).sort({ "startTimeGrade": 1 }).populate('course').populate('instructor', 'fullName');
         res.status(200).json(grades);
     } catch (error) {
         res.status(500).json({

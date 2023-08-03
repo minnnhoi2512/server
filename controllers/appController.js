@@ -20,7 +20,9 @@ export async function verifyUser(req, res, next) {
         if (!exist) return res.status(404).send({ error: "Can't find User!" });
         debugger
         next();
-
+        // res.status(200).json({
+        //     msg : 'Verify success'
+        // })
     } catch (error) {
         return res.status(404).send({ error: "Authentication Error" });
     }
